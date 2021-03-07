@@ -41,7 +41,7 @@ function setup() {
   monkey.addAnimation("monkey", monkeyAnimation);
   monkey.scale = 0.08;
   monkey.visible = false;
-  monkey.setCollider("circle",10,10,30);
+  monkey.setCollider("circle",20,20,60);
 
   homeMonkey = createSprite(100,423,20,50);
   homeMonkey.addAnimation("homepage",homeMonkeyAnimation);
@@ -301,16 +301,16 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     obstacleHit = obstacleHit + 1; 
    }
 
-   if(obstacleHit === 14){
-     text("Hits:1", 170,435);
+   if(obstacleHit <= 15 && obstacleHit > 1){
+     text("Hit:1", 170,435);
    }
 
-   if(obstacleHit === 28){
+   if(obstacleHit >= 16){
      text("Hit:2",170,435);
    }
 
 
-    if(obstacleHit === 42){
+    if(obstacleHit <= 42 && obstacleHit > 30){
      obstacleHit = 0;
      gameState = STONEATTACKOVER;
    } 
