@@ -6,11 +6,17 @@ var bananaGroup, obstacleGroup;
 var infiniteMode, infiniteModeImage; 
 var attackMode, attackModeImage; 
 var spaceBar, spaceBarImage; 
+var batterylife, batterylifeImage; 
+var battery1, battery1Image;
+var battery2, battery2Image
+var batteryFull, batteryFullImage;
+var batteryEmpty, batteryEmptyImage;  
 var INFINITE = 0;
 var STONEATTACK = 1; 
 var HOME = 2; 
 var STONEATTACKOVER = 3; 
 var THREESTRIKES = 4;
+var BATTERY = 5; 
 var gameState = HOME; 
 var homeMonkey, homeMonkeyAnimation;
 var score;
@@ -25,7 +31,12 @@ function preload(){
   spaceBarImage = loadImage("spacebar.png");
   infiniteModeImage = loadImage("InfiniteMode.png");
   attackModeImage = loadImage("StoneAttack.png");
-  threestonesImage = loadImage("3stones.png")
+  threestonesImage = loadImage("3stones.png");
+  batterylifeImage = loadImage("BatteryLifeline.png");
+  battery1Image = loadImage("Battery1.png");
+  battery2Image = loadImage("Battery2.png");
+  batteryEmptyImage = loadImage("BatteryEmpty.png");
+  batteryFullImage = loadImage("BatteryFull.png");
   homeMonkeyAnimation = loadAnimation("Monkey_01.png","Monkey_02.png","Monkey_03.png","Monkey_04.png","Monkey_05.png","Monkey_06.png","Monkey_07.png","Monkey_08.png","Monkey_09.png","Monkey_10.png");
 }
 
@@ -48,6 +59,26 @@ function setup() {
   homeMonkey.scale = 0.1;
   homeMonkey.visible = false;
 
+  battery1 = createSprite(200,435,50,50);
+  battery1.addImage(battery1Image);
+  battery1.scale = 0.2;
+  battery1.visible = false; 
+
+  battery2 = createSprite(200,435,50,50);
+  battery2.addImage(battery2Image);
+  battery2.scale = 0.2;
+  battery2.visible = false; 
+
+  batteryEmpty = createSprite(300,427.5,50,50);
+  batteryEmpty.addImage(batteryEmptyImage);
+  batteryEmpty.scale = 0.2;
+  batteryEmpty.visible = false; 
+
+  batteryFull = createSprite(200,435,50,50);
+  batteryFull.addImage(batteryFullImage);
+  batteryFull.scale = 0.2;
+  batteryFull.visible = false; 
+
   threestones = createSprite(300,200,100,50);
   threestones.addImage(threestonesImage);
   threestones.scale = 0.3; 
@@ -68,6 +99,11 @@ function setup() {
   attackMode.addImage(attackModeImage);
   attackMode.scale = 0.3;
   attackMode.visible = false;
+
+  batterylife = createSprite(300,300,100,50);
+  batterylife.addImage(batterylifeImage);
+  batterylife.scale = 0.3; 
+  batterylife.visible = false; 
 
   invisibleGround = createSprite(200,345 ,400,10);
   invisibleGround.visible = false; 
@@ -93,10 +129,17 @@ function draw() {
     fill("black");
     text("GrowMonkeyGrow",100,50);
 
+    stroke("white");
+    textSize(10);
+    fill("white");
+    textFont("Calibri");
+    text("CREATED BY CODINGWITHVB",250,75);
+
     attackMode.visible = true; 
     infiniteMode.visible = true; 
     homeMonkey.visible = true;
     threestones.visible = true;
+    batterylife.visible = true;
 
     monkey.visible = false;
     ground.visible = false; 
@@ -119,6 +162,9 @@ function draw() {
     if(mousePressedOver(threestones)){
       gameState = THREESTRIKES;
     }
+    if(mousePressedOver(batterylife)){
+      gameState = BATTERY;
+    }
   }
 
   if(gameState === INFINITE){
@@ -128,6 +174,7 @@ function draw() {
     infiniteMode.visible = false; 
     homeMonkey.visible = false; 
     threestones.visible = false;
+    batterylife.visible = false; 
 
     monkey.visible = true; 
     ground.visible = true;
@@ -197,7 +244,8 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     infiniteMode.visible = false; 
     homeMonkey.visible = false;
     threestones.visible = false;
-    
+    batterylife.visible = false; 
+
     monkey.visible = true; 
     ground.visible = true;
     spaceBar.visible = true;
@@ -259,6 +307,7 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     infiniteMode.visible = false; 
     homeMonkey.visible = false;
     threestones.visible = false;
+    batterylife.visible = false;
     
     monkey.visible = true; 
     ground.visible = true;
@@ -330,6 +379,94 @@ text("GrowMonkeyGrow: Infinite", 115,420);
 }
   }
 
+  if(gameState === BATTERY){
+
+    attackMode.visible = false;
+    infiniteMode.visible = false; 
+    homeMonkey.visible = false;
+    threestones.visible = false;
+    batterylife.visible = false;
+
+    monkey.visible = true; 
+    ground.visible = true;
+    spaceBar.visible = true;
+    batteryFull.visible = true;
+
+    spawnFood();
+  spawnObstacles();
+
+  stroke("black");
+  textSize(20);
+  fill("black");
+  text("Score:"+ score, 10,435);
+
+  stroke("black");
+  textSize(12.5);
+  fill("brown")
+  text("GrowMonkeyGrow: Battery Lifeline!", 100,420);
+
+
+    if(keyDown("space")&& monkey.y >= 310 ) {
+      monkey.velocityY = -15;
+    }
+  
+    if(mousePressedOver(spaceBar) && monkey.y >= 310){
+      monkey.velocityY = -15;
+    }
+
+    monkey.velocityY = monkey.velocityY + 0.8 
+  
+    monkey.collide(invisibleGround);
+    
+   if(bananaGroup.isTouching(monkey)){
+     score = score + 2;
+     bananaGroup.destroyEach();
+   }
+
+   if(obstacleGroup.isTouching(monkey)){
+    obstacleHit = obstacleHit + 1; 
+   }
+
+   console.log(obstacleHit);
+
+   if(obstacleHit <= 15 && obstacleHit > 1){
+     battery1.visible = true; 
+     batteryFull.visible = false; 
+   }
+
+   if(obstacleHit >= 16){
+     battery2.visible = true; 
+     battery1.visible = false; 
+     batteryFull.visible = false; 
+   }
+
+
+    if(obstacleHit <= 42 && obstacleHit > 31){
+     obstacleHit = 0;
+
+     batteryFull.visible = false; 
+     battery1.visible = false; 
+     battery2.visible = false; 
+     batteryEmpty.visible = true; 
+
+     gameState = STONEATTACKOVER;
+   } 
+
+  switch(score){
+    case 10: monkey.scale = 0.09;
+    break;  
+    case 20: monkey.scale = 0.1;
+    break;
+    case 30: monkey.scale = 0.11;
+    break;
+    case 40: monkey.scale = 0.12;
+    break;
+    case 50: monkey.scale = 0.13;
+    break;
+    default: break;  
+}
+  }
+
   if(gameState === STONEATTACKOVER){
     stroke("black");
   textSize(15);
@@ -352,6 +489,7 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   if(keyDown("h")){
     obstacleGroup.visible = false;
     bananaGroup.visible = false;
+    batteryEmpty.visible = false;
     gameState = HOME;
   }
 
@@ -364,7 +502,7 @@ text("GrowMonkeyGrow: Infinite", 115,420);
 }
 
 function spawnObstacles() {
-  if(frameCount % 180 === 0) {
+  if(frameCount % 120 === 0) {
     var obstacle = createSprite(450,350,10,40);
     obstacle.addImage("obstacles", obstacleImage);
     obstacle.scale = 0.1;
