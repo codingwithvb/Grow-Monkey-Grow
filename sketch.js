@@ -125,7 +125,7 @@ function setup() {
   
   score = 0;
   obstacleHit = 0;
-  timer1 = 6; 
+  timer1 = 5; 
   timer2 = 181; 
   
 
@@ -160,7 +160,7 @@ function draw() {
     spaceBar.visible = false; 
 
     score = 0;
-    timer1 = 6;
+    timer1 = 5;
     timer2 = 181;
     obstacleHit = 0;
 
@@ -194,6 +194,7 @@ function draw() {
     homeMonkey.visible = false; 
     threestones.visible = false;
     batterylife.visible = false; 
+    timedGame.visible = false; 
 
     monkey.visible = true; 
     ground.visible = true;
@@ -263,7 +264,8 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     infiniteMode.visible = false; 
     homeMonkey.visible = false;
     threestones.visible = false;
-    batterylife.visible = false; 
+    batterylife.visible = false;
+    timedGame.visible = false; 
 
     monkey.visible = true; 
     ground.visible = true;
@@ -327,6 +329,7 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     homeMonkey.visible = false;
     threestones.visible = false;
     batterylife.visible = false;
+    timedGame.visible = false; 
     
     monkey.visible = true; 
     ground.visible = true;
@@ -405,6 +408,7 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     homeMonkey.visible = false;
     threestones.visible = false;
     batterylife.visible = false;
+    timedGame.visible = false; 
 
     monkey.visible = true; 
     ground.visible = true;
