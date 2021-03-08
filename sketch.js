@@ -125,7 +125,7 @@ function setup() {
   
   score = 0;
   obstacleHit = 0;
-  timer1 = 5; 
+  timer1 = 6; 
   timer2 = 181; 
   
 
@@ -160,7 +160,7 @@ function draw() {
     spaceBar.visible = false; 
 
     score = 0;
-    timer1 = 5;
+    timer1 = 6;
     timer2 = 181;
     obstacleHit = 0;
 
