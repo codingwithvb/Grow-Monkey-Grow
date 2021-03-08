@@ -54,7 +54,7 @@ function setup() {
   ground.addImage(groundImage);
   ground.visible = false;
   
-  monkey = createSprite(100,320,20,50);
+  monkey = createSprite(100,335,20,50);
   monkey.addAnimation("monkey", monkeyAnimation);
   monkey.scale = 0.08;
   monkey.visible = false;
@@ -203,11 +203,11 @@ function draw() {
     spawnFood();
   spawnObstacles();
 
-    if(keyDown("space")&& monkey.y >= 310 ) {
+    if(keyDown("space")&& monkey.y >= 332 ) {
       monkey.velocityY = -15;
     }
   
-    if(mousePressedOver(spaceBar) && monkey.y >= 310){
+    if(mousePressedOver(spaceBar) && monkey.y >= 332){
       monkey.velocityY = -15;
     }
 
@@ -285,11 +285,11 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   text("GrowMonkeyGrow: Stone Attack", 115,420);
 
 
-    if(keyDown("space")&& monkey.y >= 310 ) {
+    if(keyDown("space")&& monkey.y >= 332 ) {
       monkey.velocityY = -15;
     }
   
-    if(mousePressedOver(spaceBar) && monkey.y >= 310){
+    if(mousePressedOver(spaceBar) && monkey.y >= 332){
       monkey.velocityY = -15;
     }
 
@@ -349,11 +349,11 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   text("GrowMonkeyGrow: 3 Stones And You're Out!", 100,420);
 
 
-    if(keyDown("space")&& monkey.y >= 310 ) {
+    if(keyDown("space")&& monkey.y >= 332 ) {
       monkey.velocityY = -15;
     }
   
-    if(mousePressedOver(spaceBar) && monkey.y >= 310){
+    if(mousePressedOver(spaceBar) && monkey.y >= 332){
       monkey.velocityY = -15;
     }
 
@@ -429,11 +429,11 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   text("GrowMonkeyGrow: Battery Lifeline!", 100,420);
 
 
-    if(keyDown("space")&& monkey.y >= 310 ) {
+    if(keyDown("space")&& monkey.y >= 332 ) {
       monkey.velocityY = -15;
     }
   
-    if(mousePressedOver(spaceBar) && monkey.y >= 310){
+    if(mousePressedOver(spaceBar) && monkey.y >= 332){
       monkey.velocityY = -15;
     }
 
@@ -554,11 +554,11 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   text("GrowMonkeyGrow: Timed Game", 115,420);
 
 
-    if(keyDown("space")&& monkey.y >= 310 ) {
+    if(keyDown("space")&& monkey.y >= 332 ) {
       monkey.velocityY = -15;
     }
   
-    if(mousePressedOver(spaceBar) && monkey.y >= 310){
+    if(mousePressedOver(spaceBar) && monkey.y >= 332){
       monkey.velocityY = -15;
     }
 
