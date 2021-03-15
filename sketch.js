@@ -2,7 +2,7 @@ var monkey, monkeyAnimation;
 var obstacle, obstacleImage;
 var ground, groundImage;
 var banana, bananaImage;
-var bananaGroup, obstacleGroup;
+var bananaGroup, obstacleGroupl, banana1Group;
 var infiniteMode, infiniteModeImage; 
 var attackMode, attackModeImage; 
 var timedGame, timedGameImage; 
@@ -20,13 +20,16 @@ var THREESTRIKES = 4;
 var BATTERY = 5; 
 var TIMERINTRODUCTION = 6;
 var TIMER = 7;
-var gameState = HOME; 
+var congratsMessage = 8; 
+var INTRO = 9;  
+var gameState = INTRO; 
 var homeMonkey, homeMonkeyAnimation;
+var homePage, homePageImage; 
 var score;
 var timer1;
 var timer2;
 var threestones, threestonesImage;
-var obstacleHit;
+var obstacleHit; 
 
 function preload(){
   monkeyAnimation = loadAnimation("Monkey_01.png","Monkey_02.png","Monkey_03.png","Monkey_04.png","Monkey_05.png","Monkey_06.png","Monkey_07.png","Monkey_08.png","Monkey_09.png","Monkey_10.png");
@@ -43,11 +46,15 @@ function preload(){
   batteryEmptyImage = loadImage("BatteryEmpty.png");
   batteryFullImage = loadImage("BatteryFull.png");
   timedGameImage = loadImage("timedGame.png");
+  homePageImage = loadImage("homepageImage.png");
   homeMonkeyAnimation = loadAnimation("Monkey_01.png","Monkey_02.png","Monkey_03.png","Monkey_04.png","Monkey_05.png","Monkey_06.png","Monkey_07.png","Monkey_08.png","Monkey_09.png","Monkey_10.png");
 }
 
 function setup() {
   createCanvas(450, 450);
+
+  /* capture = createCapture(VIDEO);
+  capture.size(320, 240); */
   
   ground = createSprite(200,180,400,20);
   ground.scale = 0.55;
@@ -64,6 +71,11 @@ function setup() {
   homeMonkey.addAnimation("homepage",homeMonkeyAnimation);
   homeMonkey.scale = 0.1;
   homeMonkey.visible = false;
+
+  homePage = createSprite(225,75,50,100);
+  homePage.addImage(homePageImage);
+  homePage.scale = 0.6;
+  homePage.visible = false; 
 
   battery1 = createSprite(200,435,50,50);
   battery1.addImage(battery1Image);
@@ -85,7 +97,7 @@ function setup() {
   batteryFull.scale = 0.2;
   batteryFull.visible = false; 
 
-  threestones = createSprite(300,200,100,50);
+  threestones = createSprite(200,150,100,50);
   threestones.addImage(threestonesImage);
   threestones.scale = 0.2; 
   threestones.visible = false;
@@ -95,23 +107,22 @@ function setup() {
   spaceBar.scale = 0.2;
   spaceBar.visible = false; 
   
-  infiniteMode = createSprite(150, 200, 100,50);
+  infiniteMode = createSprite(100, 150, 100,50);
   infiniteMode.scale = 0.2;
   infiniteMode.addImage(infiniteModeImage);
   infiniteMode.visible = false; 
-  
 
-  attackMode = createSprite(150,300,100,50);
+  attackMode = createSprite(100,200,100,50);
   attackMode.addImage(attackModeImage);
   attackMode.scale = 0.2;
   attackMode.visible = false;
 
-  batterylife = createSprite(300,300,100,50);
+  batterylife = createSprite(200,200,100,50);
   batterylife.addImage(batterylifeImage);
   batterylife.scale = 0.2; 
   batterylife.visible = false; 
 
-  timedGame = createSprite(300,400,100,50);
+  timedGame = createSprite(300,150,100,50);
   timedGame.addImage(timedGameImage);
   timedGame.scale = 0.2; 
   timedGame.visible = false; 
@@ -122,31 +133,40 @@ function setup() {
   bananaGroup = new Group();
   obstacleGroup = new Group();
   monkeyGroup = new Group();
+  banana1Group = new Group(); 
   
   score = 0;
   obstacleHit = 0;
   timer1 = 6; 
-  timer2 = 181; 
-  
+  timer2 = 181;   
 
 }
 
 function draw() {
   background(220);
+
+  if(gameState === INTRO){
+    background(174,229,224);
+
+    homePage.visible = true; 
+
+    homePage.x = 225;
+    homePage.y = 200; 
+
+    textFont("Calibri");
+    textSize(20);
+    fill("black");
+    text("Loading...", 200,300);
+
+    if(frameCount % 150 === 0){
+      
+      gameState = HOME; 
+    }
+
+  }
   
   if(gameState === HOME){
     background(174,229,224);
-
-    stroke("black");
-    textSize(30);
-    fill("black");
-    text("GrowMonkeyGrow",100,50);
-
-    stroke("white");
-    textSize(10);
-    fill("white");
-    textFont("Calibri");
-    text("CREATED BY CODINGWITHVB",250,75);
 
     attackMode.visible = true; 
     infiniteMode.visible = true; 
@@ -154,10 +174,14 @@ function draw() {
     threestones.visible = true;
     batterylife.visible = true;
     timedGame.visible = true;
+    homePage.visible = true; 
 
     monkey.visible = false;
     ground.visible = false; 
     spaceBar.visible = false; 
+
+    homePage.x = 225; 
+    homePage.y = 75; 
 
     score = 0;
     timer1 = 6;
@@ -168,6 +192,8 @@ function draw() {
   bananaGroup.setLifetimeEach(0);
 
     monkey.collide(invisibleGround);
+
+    monkey.scale = 0.08; 
 
     if(mousePressedOver(infiniteMode)){
       gameState = INFINITE;
@@ -195,6 +221,7 @@ function draw() {
     threestones.visible = false;
     batterylife.visible = false; 
     timedGame.visible = false; 
+    homePage.visible = false; 
 
     monkey.visible = true; 
     ground.visible = true;
@@ -255,6 +282,10 @@ stroke("black");
 textSize(15);
 fill("brown")
 text("GrowMonkeyGrow: Infinite", 115,420);
+
+if(score >= 60){
+  gameState = congratsMessage; 
+}
   }
 
   if(gameState === STONEATTACK){
@@ -266,6 +297,7 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     threestones.visible = false;
     batterylife.visible = false;
     timedGame.visible = false; 
+    homePage.visible = false; 
 
     monkey.visible = true; 
     ground.visible = true;
@@ -284,6 +316,9 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   fill("brown")
   text("GrowMonkeyGrow: Stone Attack", 115,420);
 
+  if(score >= 60){
+    gameState = congratsMessage; 
+  }
 
     if(keyDown("space")&& monkey.y >= 332 ) {
       monkey.velocityY = -15;
@@ -330,6 +365,7 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     threestones.visible = false;
     batterylife.visible = false;
     timedGame.visible = false; 
+    homePage.visible = false; 
     
     monkey.visible = true; 
     ground.visible = true;
@@ -348,6 +384,12 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   fill("brown")
   text("GrowMonkeyGrow: 3 Stones And You're Out!", 100,420);
 
+
+  
+  if(score >= 60){
+    gameState = congratsMessage; 
+  }
+  
 
     if(keyDown("space")&& monkey.y >= 332 ) {
       monkey.velocityY = -15;
@@ -403,12 +445,15 @@ text("GrowMonkeyGrow: Infinite", 115,420);
 
   if(gameState === BATTERY){
 
+    background(246,185,145);
+
     attackMode.visible = false;
     infiniteMode.visible = false; 
     homeMonkey.visible = false;
     threestones.visible = false;
     batterylife.visible = false;
     timedGame.visible = false; 
+    homePage.visible = false; 
 
     monkey.visible = true; 
     ground.visible = true;
@@ -428,6 +473,10 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   fill("brown")
   text("GrowMonkeyGrow: Battery Lifeline!", 100,420);
 
+  
+  if(score >= 60){
+    gameState = congratsMessage; 
+  }
 
     if(keyDown("space")&& monkey.y >= 332 ) {
       monkey.velocityY = -15;
@@ -499,6 +548,8 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     batterylife.visible = false;
     timedGame.visible = false;
 
+    homePage.visible = true; 
+
     stroke("white");
     textFont("Arial");
     fill("white");
@@ -525,6 +576,7 @@ text("GrowMonkeyGrow: Infinite", 115,420);
     homeMonkey.visible = false;
     threestones.visible = false;
     batterylife.visible = false; 
+    homePage.visible = false; 
 
     monkey.visible = true; 
     ground.visible = true;
@@ -578,6 +630,7 @@ text("GrowMonkeyGrow: Infinite", 115,420);
      fill("red");
      textSize(25);
      text(timer2, 200,445);
+     monkey.scale = 0.08; 
 
     timer2 = timer2 - 1;
    }
@@ -585,7 +638,10 @@ text("GrowMonkeyGrow: Infinite", 115,420);
    if( timer2 <= 0){
      gameState = STONEATTACKOVER;
    }
-
+   
+   if(score >= 30){
+     gameState = congratsMessage;
+   }
    if(keyDown("e")){
      gameState = STONEATTACKOVER;
    }
@@ -606,6 +662,9 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   }
 
   if(gameState === STONEATTACKOVER){
+
+    homePage.visible = false; 
+
     stroke("black");
   textSize(15);
   fill("brown")
@@ -617,6 +676,8 @@ text("GrowMonkeyGrow: Infinite", 115,420);
   if(score >= 10){
     text("points!", 190,435);
   }
+
+  monkey.scale = 0.08; 
   
   obstacleGroup.setVelocityXEach(0);
   bananaGroup.setVelocityXEach(0);
@@ -634,6 +695,34 @@ text("GrowMonkeyGrow: Infinite", 115,420);
  monkey.y = 335;
 
   monkey.collide(invisibleGround);
+  }
+  if(gameState === congratsMessage){
+
+    homePage.visible = false; 
+    spaceBar.visible = false; 
+
+    stroke("black");
+    textSize(12);
+    fill("brown")
+    text("Congrats, you won the game! With the score of " + score,5,435);
+    text("! Go play another of our modes!", 273,435);
+    
+    obstacleGroup.setVelocityXEach(0);
+    bananaGroup.setVelocityXEach(0);
+  
+    obstacleGroup.setLifetimeEach(-150);
+    bananaGroup.setLifetimeEach(-150);
+  
+    if(keyDown("h")){
+      obstacleGroup.visible = false;
+      bananaGroup.visible = false;
+      batteryEmpty.visible = false;
+      gameState = HOME;
+    }
+  
+   monkey.y = 335;
+  
+    monkey.collide(invisibleGround);
   }
 
   drawSprites();
@@ -660,3 +749,4 @@ function spawnFood() {
      bananaGroup.add(banana);
   }
 }
+
