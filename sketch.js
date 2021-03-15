@@ -52,9 +52,6 @@ function preload(){
 
 function setup() {
   createCanvas(450, 450);
-
-  /* capture = createCapture(VIDEO);
-  capture.size(320, 240); */
   
   ground = createSprite(200,180,400,20);
   ground.scale = 0.55;
@@ -154,12 +151,12 @@ function draw() {
     homePage.y = 200; 
 
     textFont("Calibri");
-    textSize(20);
-    fill("black");
-    text("Loading...", 200,300);
+    textSize(12);
+    stroke("orange");
+    fill("orange");
+    text("CREATED BY CODINGWITHVB", 190, 225);
 
     if(frameCount % 150 === 0){
-      
       gameState = HOME; 
     }
 
@@ -408,8 +405,6 @@ if(score >= 60){
      bananaGroup.destroyEach();
    }
 
-   console.log(obstacleHit);
-
    if(obstacleGroup.isTouching(monkey)){
     obstacleHit = obstacleHit + 1; 
    }
@@ -444,8 +439,6 @@ if(score >= 60){
   }
 
   if(gameState === BATTERY){
-
-    background(246,185,145);
 
     attackMode.visible = false;
     infiniteMode.visible = false; 
