@@ -185,6 +185,7 @@ function draw() {
     textSize(12);
     stroke("orange");
     fill("orange");
+    textStyle(ITALIC);
     text("CREATED BY CODINGWITHVB", 190, 225);
 
     if(frameCount % 150 === 0){
